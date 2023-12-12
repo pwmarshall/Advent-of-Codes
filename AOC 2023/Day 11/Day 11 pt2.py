@@ -1,4 +1,4 @@
-f = open("inputTest.txt", "r")
+f = open("input.txt", "r")
 lines = f.read().split("\n")
 print(lines)
 
@@ -17,7 +17,7 @@ for i in range(len(lines[0])):
 
 print(rowsToExpand, columnsToExpand)
 
-expandFactor = 100 #replace empty row with x number
+expandFactor = 1000000 #replace empty row with x number
 
 stars = [] #pos before expansion
 
@@ -26,15 +26,17 @@ for i in range(len(lines)): #rows
         if lines[i][j] == "#":
             stars.append((i,j))
 
-print(stars)
+# print(stars)
 
 newStars = []
 index = 0
 
 for i in range(len(stars)): # transform rows 
-    if index < len(rowsToExpand) and stars[i][0] > rowsToExpand[index]:
+    while index < len(rowsToExpand) and stars[i][0] > rowsToExpand[index]:
         index += 1
     newStars.append((stars[i][0] + index*(expandFactor-1), stars[i][1]))
+    # if stars[i][0] + index*(expandFactor-1) == 54:
+    #     print(stars[i])
 
 # print(newStars)
 
@@ -59,11 +61,47 @@ print(newNewStars)
 sumDistance = 0
 
 for i in range(len(newNewStars)-1):
+    pos1 = newNewStars[i]
     for j in range(i+1, len(newNewStars)):
-        pos1 = newNewStars[i]
         pos2 = newNewStars[j]
         sumDistance += abs(pos1[0] - pos2[0]) + abs(pos1[1] - pos2[1])
 
 print(sumDistance)
 
+
 618912410702
+
+
+# part 1 compare
+
+# expandedUniverse = []
+# expandFactor = 2 #replace empty row with x number
+
+# for i in range(len(lines)): #rows
+#     if i in rowsToExpand:
+#         for j in range(expandFactor):
+#             expandedUniverse.append("." * (len(lines[0]) + len(columnsToExpand)*(expandFactor-1)))
+#         continue
+
+#     line = ""
+#     for j in range(len(lines[0])): # columns
+#         if j in columnsToExpand:
+#             line += ("." * (expandFactor-1))
+#         line += lines[i][j]
+
+#     expandedUniverse.append(line)
+
+# # for line in expandedUniverse:
+# #     print(line)
+
+# stars = []
+
+# for i in range(len(expandedUniverse)): #rows
+#     for j in range(len(expandedUniverse[0])): # columns
+#         if expandedUniverse[i][j] == "#":
+#             stars.append((i,j))
+
+# print(stars)
+
+# print(len(stars), len(newNewStars))
+# print([(stars[i], newNewStars[i]) for i in range(len(stars)) if stars[i] != newNewStars[i]])
