@@ -1,4 +1,4 @@
-f = open("inputTest.txt", "r")
+f = open("input.txt", "r")
 rocks = f.read().split("\n")
 print(rocks)
 
@@ -42,42 +42,48 @@ def rollRowReversed(row:list):
     # print(returnRow)
     return returnRow
 
+
+memory = {}
 cycles = 1000000000
-percent = cycles / 100
 for j in range(cycles): # cycles
-    for i in range(4): #4 directions
-        rocks = [[rocks[i][j] for i in range(len(rocks))] for j in range(len(rocks[0]))]
-
-        # backRocks = [[rocks[i][j] for i in range(len(rocks))] for j in range(len(rocks[0]))]
-        # print()
-        # print(i)
-        # for line in rocks:
-        #     print("".join(line))
-
-        if i == 0 or i == 1:
-            for i in range(len(rocks)):
-                rocks[i] = rollRow(rocks[i])
-        else:
-            for i in range(len(rocks)):
-                rocks[i] = rollRowReversed(rocks[i])
-
-        # print()
-        # for line in rocks:
-        #     print("".join(line))
-    
+    key = "".join(["".join([j for j in i]) for i in rocks])
     # print()
-    # for line in rocks:
-    #     print("".join(line))
-    # if (i / cycles) * 100 
-    if i % percent == 0:
-        print(f"{(i / cycles) * 100}% done")
+    # print(key)
+    # print(sum([sum([len(rocks) - i for j in range(len(rocks[i])) if rocks[i][j] == "O"]) for i in range(len(rocks))]), f"after {j} cycles")
+
+    if key in memory:
+        print("repeat", j)
+        cycleTime = j - memory[key]
+        # print(cycleTime)
+        cyclesLeft = cycles-j
+        # print(cyclesLeft)
+        # print(cyclesLeft % cycleTime)
+        keySolve = [i for i in memory if memory[i] == (memory[key] + (cyclesLeft % cycleTime))][0]
+        # print(memory[keySolve])
+
+        rocks = [[keySolve[i+(j*len(rocks[0]))] for i in range(len(rocks))] for j in range(len(rocks[0]))]
+
+        break
+    else:
+        memory[key] = j
+        for i in range(4): #4 directions
+            rocks = [[rocks[i][j] for i in range(len(rocks))] for j in range(len(rocks[0]))]
+
+            if i == 0 or i == 1:
+                for i in range(len(rocks)):
+                    rocks[i] = rollRow(rocks[i])
+            else:
+                for i in range(len(rocks)):
+                    rocks[i] = rollRowReversed(rocks[i])
+
 
 # for line in colRocks:
 #     print("".join(line))
+# for i in range(len(rocks)):
+#     print([len(rocks) - i for j in range(len(rocks[i])) if rocks[i][j] == "O"])
+print(sum([sum([len(rocks) - i for j in range(len(rocks[i])) if rocks[i][j] == "O"]) for i in range(len(rocks))]), "answer")
 
-print(sum([sum([len(rocks[i]) - j for j in range(len(rocks[i])) if rocks[i][j] == "O"]) for i in range(len(rocks))]))
 
-
-print()
-for line in rocks:
-    print("".join(line))
+# print()
+# for line in rocks:
+#     print("".join(line))
