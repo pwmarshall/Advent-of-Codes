@@ -42,20 +42,6 @@ for label, focal in intructions:
             table[h][labels.index(label)][1] = focal
         else:
             table[h].append([label, focal])
-
-
-    # if len(label) == 1:
-    #     #removing
-    #     if label[0] in table[h]:
-    #         table[h].remove(label[0])
-    # elif len(label) == 2:
-    #     # adding
-    #     if label[0] in table[h]:
-    #         table[h][table[h].index(label[0])] = label[1]
-    #     else:
-    #         table[h].append(label[1])
-    # else:
-    #     print("no")
             
 print(table)
 
