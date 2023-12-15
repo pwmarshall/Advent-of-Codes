@@ -18,8 +18,7 @@ def hash(string):
 
     return hashValue
 
-print(sum([hash(i) for i in strings]))
-
+print(sum([hash(i) for i in strings]), "pt1")
 
 table = {}
 for i in range(256):
@@ -30,9 +29,7 @@ print(intructions)
 
 for label, focal in intructions:
     h = hash(label)
-    # print(label)
     labels = [table[h][i][0] for i in range(len(table[h]))]
-    # print(labels)
 
     if focal == "":
         if label in labels:
@@ -45,14 +42,6 @@ for label, focal in intructions:
             
 print(table)
 
-sumFocusingPower = 0
-for i in range(256):
-    # print(i, "i")
-    for j in range(len(table[i])):
-        # print(j, "j")
-        focusingPower = (i+1) * (j+1) * int(table[i][j][1])
-        # print(focusingPower, "power")
-        sumFocusingPower += focusingPower
+print(sum([(i+1) * (j+1) * int(table[i][j][1]) for i in range(256) for j in range(len(table[i]))]), "pt2")
         
 
-print(sumFocusingPower)
